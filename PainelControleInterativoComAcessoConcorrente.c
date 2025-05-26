@@ -392,7 +392,7 @@ void vTaskEntradaUsuarios(void *params){
             encontrado = false;// Para verificar se o usuário com id digitado existe no sistema
             if ( xQueueReceive(xFilaCodigoIdentificacaoUsuario, &codigo, pdMS_TO_TICKS(100)) == pdTRUE ) {// Armazena o id digitado na variável código
                 for (int i = 0; i < MAXIMO_USUARIOS; i++){// Itera sobre todos os usuários do sistema
-                    if (usuarios[i].codigo == codigo){// se o usuário for encontrado no sistema
+                    if (usuarios[i].codigo == codigo && !usuarios[i].logado){// se o usuário for encontrado no sistema
                         encontrado = true;//Sinaliza que foi encontrado
                         usuarios[i].logado = true;// Muda o estado do usuário 
                         xSemaphoreGive(xSemaforoContagemUsuários); // Aumenta a contagem de usuários no sistema
@@ -404,8 +404,7 @@ void vTaskEntradaUsuarios(void *params){
                             ssd1306_rect(&ssd, 1,1,122,60, true, false);
                             ssd1306_draw_string(&ssd, "USUARIO", 30, 10);
                             ssd1306_draw_string(&ssd, usuarios[i].nome, 30, 25);
-                            if(!usuarios[i].logado)ssd1306_draw_string(&ssd, "LOGADO", 30, 40);// Se o usuário não estiver logado
-                            if(usuarios[i].logado)ssd1306_draw_string(&ssd, "JA LOGADO", 30, 40); // Se ja está logado
+                            ssd1306_draw_string(&ssd, "LOGADO", 30, 40);
                             ssd1306_send_data(&ssd);
                             vTaskDelay(pdMS_TO_TICKS(1000)); // Permanece no display por 1 segundo
                             // Limpa o display
@@ -456,7 +455,7 @@ void vTaskSaidaUsuarios(void *params){
             encontrado = false;// Para verificar se o usuário com id informado foi encontrado no sistema
             if (xQueueReceive(xFilaCodigoIdentificacaoUsuario,&codigo,pdMS_TO_TICKS(100)) == pdTRUE){ // Armazena o id informado na variavel codigo
                 for (int i = 0; i < MAXIMO_USUARIOS; i++){// Itera sobre todos os usuários
-                    if (usuarios[i].codigo == codigo ){// Se o usuário foi encontrado 
+                    if (usuarios[i].codigo == codigo && usuarios[i].logado){// Se o usuário foi encontrado 
                         encontrado = true;// Sinaliza que foi encontrado
                         usuarios[i].logado = false;// Muda o estado do usuário
                         xSemaphoreTake(xSemaforoContagemUsuários,portMAX_DELAY); // remove do sistema

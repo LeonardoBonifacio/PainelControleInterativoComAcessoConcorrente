@@ -568,15 +568,15 @@ int main(){
     //Fila
     xFilaCodigoIdentificacaoUsuario = xQueueCreate(1,sizeof (char));
     // Criação de task
-    xTaskCreate(vTaskReset,"Reseta a contagem",configMINIMAL_STACK_SIZE,NULL,tskIDLE_PRIORITY + 1,NULL);
+    xTaskCreate(vTaskReset,"Reseta o sistema",configMINIMAL_STACK_SIZE,NULL,tskIDLE_PRIORITY + 1,NULL);
     xTaskCreate(vTaskEntradaUsuarios,"Adiciona um usuário",configMINIMAL_STACK_SIZE,NULL,tskIDLE_PRIORITY + 1,NULL);
     xTaskCreate(vTaskSaidaUsuarios,"Retira um usuário",configMINIMAL_STACK_SIZE,NULL,tskIDLE_PRIORITY + 1,NULL);
     xTaskCreate(vTaskEstadoSistemaComRgb,"Mostra o estado do sistema com leds rgb",configMINIMAL_STACK_SIZE,NULL,tskIDLE_PRIORITY + 1,NULL);
-    xTaskCreate(vTaskMostraMensagemDeEsperaPorID,"Mostra Quantidade Usuários no oled",configMINIMAL_STACK_SIZE,NULL,tskIDLE_PRIORITY + 1,NULL);
-    xTaskCreate(vTaskAvisoLimite,"Emite um aviso que o máximo de usuário foi atingido no oled",configMINIMAL_STACK_SIZE,NULL,tskIDLE_PRIORITY + 1,NULL);
+    xTaskCreate(vTaskMostraMensagemDeEsperaPorID,"Mostra mensagem de espera por ID",configMINIMAL_STACK_SIZE,NULL,tskIDLE_PRIORITY + 1,NULL);
+    xTaskCreate(vTaskAvisoLimite,"Emite um aviso que o máximo de usuário foi atingido",configMINIMAL_STACK_SIZE,NULL,tskIDLE_PRIORITY + 1,NULL);
     xTaskCreate(vMatrizLedTask,"Controla a matriz de leds",configMINIMAL_STACK_SIZE,NULL,tskIDLE_PRIORITY + 1,NULL);
-    xTaskCreate(vTaskUART,"Teste",configMINIMAL_STACK_SIZE,NULL,tskIDLE_PRIORITY + 1,NULL);
-    xTaskCreate(vTaskInformaParaLogarOuDeslogar,"Teste",configMINIMAL_STACK_SIZE,NULL,tskIDLE_PRIORITY + 1,NULL);
+    xTaskCreate(vTaskUART,"Lé os id informados pelo teclado",configMINIMAL_STACK_SIZE,NULL,tskIDLE_PRIORITY + 1,NULL);
+    xTaskCreate(vTaskInformaParaLogarOuDeslogar,"Mostra mensagem para logar ou deslogar usuário",configMINIMAL_STACK_SIZE,NULL,tskIDLE_PRIORITY + 1,NULL);
     // Inicia o agendador
     vTaskStartScheduler();
     panic_unsupported();
